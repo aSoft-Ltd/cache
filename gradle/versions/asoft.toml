@@ -1,6 +1,6 @@
 [versions]
-root = "2.0.3"
-foundation = "1.5.2"
+root = "2.0.4"
+foundation = "1.5.3"
 
 [libraries]
 expect-core = { module = "tz.co.asoft:expect-core", version.ref = "root" }
