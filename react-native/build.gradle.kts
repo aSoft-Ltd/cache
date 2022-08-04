@@ -30,5 +30,6 @@ kotlin {
 }
 
 aSoftOSSLibrary(
-    version = asoft.versions.foundation.get(), description = "An implementation of the cache-api to help caching simple objects on react-native-targets"
+    version = asoft.versions.root.get(),
+    description = "An implementation of the cache-api to help caching simple objects on react-native-targets"
 )

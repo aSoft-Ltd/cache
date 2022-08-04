@@ -15,14 +15,18 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                if (System.getenv("INCLUDE_BUILD") == "true") {
+                    api(asoft.koncurrent.later.test)
+                } else {
+                    api(project(":koncurrent-later-test"))
+                }
                 api(projects.cacheMock)
-                api(projects.koncurrentLaterTest)
             }
         }
     }
 }
 
 aSoftOSSLibrary(
-    version = asoft.versions.foundation.get(),
+    version = asoft.versions.root.get(),
     description = "An implementation of the cache-api to help caching simple objects in memory"
 )

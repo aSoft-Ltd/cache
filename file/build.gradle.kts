@@ -32,6 +32,6 @@ kotlin {
 }
 
 aSoftOSSLibrary(
-    version = asoft.versions.foundation.get(),
+    version = asoft.versions.root.get(),
     description = "An implementation of the cache-api to help caching simple objects in memory"
 )

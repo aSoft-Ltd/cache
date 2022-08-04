@@ -15,10 +15,14 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                if (System.getenv("INCLUDE_BUILD") == "true") {
+                    api(asoft.koncurrent.primitives.mock)
+                } else {
+                    api(project(":koncurrent-primitives-mock"))
+                }
                 api(projects.cacheApi)
                 api(projects.cacheFile)
-                api(projects.koncurrentPrimitivesMock)
-                api(projects.kotlinxCollectionsAtomic)
+                api(asoft.kotlinx.collections.atomic)
             }
         }
 
@@ -31,6 +35,6 @@ kotlin {
 }
 
 aSoftOSSLibrary(
-    version = asoft.versions.foundation.get(),
+    version = asoft.versions.root.get(),
     description = "An implementation of the cache-api to help caching simple objects in memory"
 )
