@@ -15,11 +15,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                if (System.getenv("INCLUDE_BUILD") == "true") {
-                    api(asoft.koncurrent.primitives.mock)
-                } else {
-                    api(project(":koncurrent-primitives-mock"))
-                }
+                api(project(":koncurrent-primitives-mock"))
                 api(projects.cacheApi)
                 api(projects.cacheFile)
                 api(asoft.kotlinx.collections.atomic)

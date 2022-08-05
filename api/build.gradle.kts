@@ -15,11 +15,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                if (System.getenv("INCLUDE_BUILD") == "true") {
-                    api(asoft.koncurrent.later.core)
-                } else {
-                    api(project(":koncurrent-later-core"))
-                }
+                api(project(":koncurrent-later-core"))
                 api(kotlinx.serialization.core)
             }
         }
