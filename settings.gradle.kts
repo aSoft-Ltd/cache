@@ -38,7 +38,7 @@ rootProject.name = "root"
 includeSubs("functions", "../functions", "core")
 includeSubs("expect", "../expect", "core", "coroutines")
 includeSubs("koncurrent-primitives", "../koncurrent/primitives", "core", "coroutines", "mock")
-includeSubs("koncurrent-later", "../koncurrent/later", "core", "coroutines", "test")
+includeSubs("koncurrent-later", "../koncurrent/later", "core", "test")
 
 // submodules
 includeSubs("cache", ".", "api", "browser", "file", "mock", "react-native", "test")
