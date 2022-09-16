@@ -15,7 +15,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":koncurrent-primitives-mock"))
+                api(projects.koncurrentPrimitivesMock)
                 api(projects.cacheApi)
                 api(projects.cacheFile)
                 api(asoft.kotlinx.collections.atomic)
