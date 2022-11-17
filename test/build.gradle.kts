@@ -15,8 +15,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":koncurrent-later-test"))
-
+                api(projects.koncurrentLaterTest)
                 api(projects.cacheMock)
             }
         }

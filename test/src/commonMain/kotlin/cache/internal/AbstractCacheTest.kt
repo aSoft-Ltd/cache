@@ -9,7 +9,7 @@ import expect.BasicExpectation
 import expect.expect
 import expect.toBe
 import koncurrent.later.catch
-import koncurrent.later.flatten
+import koncurrent.later.andThen
 import koncurrent.later.test
 import koncurrent.later.then
 import kotlinx.serialization.Serializable
@@ -17,7 +17,7 @@ import kotlin.test.Test
 
 abstract class AbstractCacheTest(val cache: Cache) {
     @Test
-    fun should_be_able_to_load_and_save_primitively_easily() = cache.save("int", 1).flatten {
+    fun should_be_able_to_load_and_save_primitively_easily() = cache.save("int", 1).andThen {
         cache.load<Int>("int")
     }.then {
         expect(it).toBe(1)
@@ -27,7 +27,7 @@ abstract class AbstractCacheTest(val cache: Cache) {
     data class Person(val name: String)
 
     @Test
-    fun should_be_able_to_load_and_save_custom_classes_easily() = cache.save("john", Person("John")).flatten {
+    fun should_be_able_to_load_and_save_custom_classes_easily() = cache.save("john", Person("John")).andThen {
         cache.load<Person>("john")
     }.then {
         expect(it).toBe(Person("John"))
@@ -47,7 +47,7 @@ abstract class AbstractCacheTest(val cache: Cache) {
     }.test()
 
     @Test
-    fun should_return_Unit_when_an_existing_item_in_the_cache_was_removed() = cache.save("test", 1).flatten {
+    fun should_return_Unit_when_an_existing_item_in_the_cache_was_removed() = cache.save("test", 1).andThen {
         cache.remove("test")
     }.then {
         expect(it).toBe(Unit)
@@ -60,19 +60,19 @@ abstract class AbstractCacheTest(val cache: Cache) {
 
 
     @Test
-    fun should_clear_the_whole_cache() = cache.save("one", 1).flatten {
+    fun should_clear_the_whole_cache() = cache.save("one", 1).andThen {
         println("one")
         cache.save("two", 2)
-    }.flatten {
+    }.andThen {
         println("two")
         cache.save("three", 3)
-    }.flatten {
+    }.andThen {
         println("three")
         cache.clear()
-    }.flatten {
+    }.andThen {
         println("four")
         cache.loadOrNull<Int>("two")
-    }.flatten {
+    }.andThen {
         println("five")
         expect(it).toBe(null)
         cache.keys()
