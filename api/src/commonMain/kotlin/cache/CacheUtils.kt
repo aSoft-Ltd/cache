@@ -2,6 +2,7 @@ package cache
 
 import cache.exceptions.CacheLoadException
 import cache.exceptions.CacheSaveException
+import koncurrent.FailedLater
 import koncurrent.Later
 import koncurrent.later.catch
 import koncurrent.later.then
@@ -20,7 +21,7 @@ import kotlinx.serialization.serializer
 inline fun <reified T> Cache.save(key: String, obj: T): Later<out T> = try {
     save(key, obj, serializer())
 } catch (e: Throwable) {
-    Later.reject(CacheSaveException(key, cause = e))
+    FailedLater(CacheSaveException(key, cause = e))
 }
 
 /**
@@ -34,10 +35,10 @@ inline fun <reified T> Cache.save(key: String, obj: T): Later<out T> = try {
  */
 inline fun <reified T> Cache.saveOrNull(
     key: String, obj: T, serializer: KSerializer<T>? = null
-): Later<out T?> = try {
+): Later<T?> = try {
     save(key, obj, serializer ?: serializer())
 } catch (e: Throwable) {
-    Later.reject(CacheSaveException(key, cause = e))
+    FailedLater(CacheSaveException(key, cause = e))
 }.then {
     it as? T
 }.catch { null }
@@ -54,7 +55,7 @@ inline fun <reified T> Cache.saveOrNull(
 inline fun <reified T> Cache.load(key: String): Later<out T> = try {
     load(key, serializer<T>())
 } catch (e: Throwable) {
-    Later.reject(CacheLoadException(key, cause = e))
+    FailedLater(CacheLoadException(key, cause = e))
 }
 
 /**
@@ -68,8 +69,8 @@ inline fun <reified T> Cache.load(key: String): Later<out T> = try {
  */
 inline fun <reified T> Cache.loadOrNull(
     key: String, serializer: KSerializer<T>? = null
-): Later<out T?> = try {
-    load(key, serializer ?: serializer())
+): Later<T?> = try {
+    load(key, serializer ?: serializer()) as Later<T?>
 } catch (e: Throwable) {
-    Later.reject(CacheLoadException(key, cause = e))
+    FailedLater(CacheLoadException(key, cause = e))
 }.catch { null }

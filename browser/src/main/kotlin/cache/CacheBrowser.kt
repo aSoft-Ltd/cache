@@ -28,12 +28,7 @@ class CacheBrowser(val config: CacheBrowserConfig = CacheBrowserConfig()) : Cach
         obj
     }
 
-//    override fun <T> load(key: String, serializer: KSerializer<T>): Later<out T> = executor.later {
-//        val js = storage.getItem("${namespace}:${key}") ?: throw CacheMissException(key)
-//        json.decodeFromString(serializer, js)
-//    }
-
-    override fun <T> load(key: String, serializer: KSerializer<T>): Later<out T> = Later(executor) { res, rej ->
+    override fun <T> load(key: String, serializer: KSerializer<T>): Later<T> = Later(executor) { res, rej ->
         val js = storage.getItem("${namespace}:${key}")
         if (js != null) try {
             res(json.decodeFromString(serializer, js))
@@ -42,15 +37,13 @@ class CacheBrowser(val config: CacheBrowserConfig = CacheBrowserConfig()) : Cach
         } else rej(CacheMissException(key))
     }
 
-    override fun remove(key: String): Later<out Unit?> = executor.later {
+    override fun remove(key: String): Later<Unit?> = executor.later {
         val item = storage.getItem("${namespace}:${key}")
         storage.removeItem("${namespace}:${key}")
         if (item != null) Unit else null
     }
 
-    override fun clear(): Later<out Unit> = executor.later {
-        storage.clear()
-    }
+    override fun clear(): Later<Unit> = Later(storage.clear())
 
     override fun toString(): String = "CacheBrowser(namespace=$namespace)"
 }
