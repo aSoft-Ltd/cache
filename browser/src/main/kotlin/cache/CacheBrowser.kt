@@ -7,13 +7,13 @@ import koncurrent.Later
 import koncurrent.later
 
 class CacheBrowser(val config: CacheBrowserConfig = CacheBrowserConfig()) : Cache {
-    private val storage get() = config.storage
+    private val storage = config.storage
 
-    private val executor get() = config.executor
+    private val executor = config.executor
 
-    private val json get() = config.codec
+    private val json = config.codec
 
-    private val namespace get() = config.namespace
+    private val namespace = config.namespace
 
     override fun size() = executor.later { storage.length }
 
