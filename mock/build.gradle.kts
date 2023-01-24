@@ -18,7 +18,7 @@ kotlin {
                 api(projects.koncurrentPrimitivesMock)
                 api(projects.cacheApi)
                 api(projects.cacheFile)
-                api(asoft.kotlinx.collections.atomic)
+                api(projects.kollectionsAtomic)
             }
         }
 
